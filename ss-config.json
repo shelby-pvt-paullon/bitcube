@@ -1,44 +1,120 @@
 {
-    "log": {
-        "loglevel": "warning"
-    },
-    "routing": {
-        "domainStrategy": "AsIs",
-        "rules": [
-            {
-                "type": "field",
-                "ip": [
-                    "geoip:private"
-                ],
-                "outboundTag": "block"
-            }
-        ]
-    },
-    "inbounds": [
-        {
-            "listen": "127.0.0.1",
-            "port": 8080,
-            "protocol": "shadowsocks",
-            "settings": {
-                "method": "chacha20-ietf-poly1305",
-                "password": "{{ G9rIDmo33 }}"
-            },
-            "streamSettings": {
-                "network": "grpc",
-                "grpcSettings": {
-                    "serviceName": "bitcube"
-                }
-            }
-        }
-    ],
-    "outbounds": [
-        {
-            "protocol": "freedom",
-            "tag": "direct"
-        },
-        {
-            "protocol": "blackhole",
-            "tag": "block"
-        }
+  "og": {
+    "loglevel": "info"
+  },
+  "dns": {
+    "servers": [
+      "https+local://8.8.8.8/dns-query"
     ]
+  },
+  "inbounds": [
+    {
+      "port": 5432,
+      "protocol": "vless",
+      "settings": {
+        "decryption": "none",
+        "clients": [
+          {
+            "id": "72fd09c4-42bd-3cc9-10da-f5c791d16841"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/LESS"
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "port": 443,
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "72fd09c4-42bd-3cc9-10da-f5c791d16841"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/MESS"
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "port": 8443,
+      "protocol": "shadowsocks",
+      "settings": {
+        "password": "72fd09c4-42bd-3cc9-10da-f5c791d16841",
+        "method": "chacha20-ietf-poly1305",
+        "ivcheck": true
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/SS"
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "port": 2096,
+      "protocol": "trojan",
+      "settings": {
+        "clients": [
+          {
+            "password": "72fd09c4-42bd-3cc9-10da-f5c791d16841"
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "wsSettings": {
+          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/TR"
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct",
+      "settings": {
+        "domainStrategy": "UseIPv4"
+      }
+    }
+  ]
 }
