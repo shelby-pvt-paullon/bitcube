@@ -1,120 +1,46 @@
 {
-  "og": {
-    "loglevel": "info"
-  },
-  "dns": {
-    "servers": [
-      "https+local://8.8.8.8/dns-query"
-    ]
+  "log": {
+    "level": "info"
   },
   "inbounds": [
     {
-      "port": 5432,
-      "protocol": "vless",
-      "settings": {
-        "decryption": "none",
-        "clients": [
-          {
-            "id": "72fd09c4-42bd-3cc9-10da-f5c791d16841"
-          }
-        ]
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/LESS"
+      "type": "trojan",
+      "tag": "trojan-in",
+      "listen": "127.0.0.1",
+      "listen_port": 8080,
+      "tcp_fast_open": true,
+      "udp_fragment": true,
+      "sniff": true,
+      "sniff_override_destination": false,
+      "udp_timeout": 300,
+      "proxy_protocol": true,
+      "proxy_protocol_accept_no_header": false,
+      "users": [
+        {
+          "name": "bitcube",
+          "password": "$G9rIDmo33"
         }
-      },
-      "sniffing": {
+      ],
+      "tls": {
         "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
-      }
-    },
-    {
-      "port": 443,
-      "protocol": "vmess",
-      "settings": {
-        "clients": [
-          {
-            "id": "72fd09c4-42bd-3cc9-10da-f5c791d16841"
-          }
-        ]
+        "alpn": [
+          "http/1.1"
+        ],
+        "min_version": "1.2",
+        "max_version": "1.3"
       },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/MESS"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
-      }
-    },
-    {
-      "port": 8443,
-      "protocol": "shadowsocks",
-      "settings": {
-        "password": "72fd09c4-42bd-3cc9-10da-f5c791d16841",
-        "method": "chacha20-ietf-poly1305",
-        "ivcheck": true
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/SS"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
-      }
-    },
-    {
-      "port": 2096,
-      "protocol": "trojan",
-      "settings": {
-        "clients": [
-          {
-            "password": "72fd09c4-42bd-3cc9-10da-f5c791d16841"
-          }
-        ]
-      },
-      "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/.temp/tunnel/id/.86de6451-e653-4318-bd38-4e8e4a9d8006/TR"
-        }
-      },
-      "sniffing": {
-        "enabled": true,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
+      "transport": {
+        "type": "ws",
+        "path": "/bitcube",
+        "max_early_data": 0,
+        "early_data_header_name": "Sec-WebSocket-Protocol"
       }
     }
   ],
   "outbounds": [
     {
-      "protocol": "freedom",
-      "tag": "direct",
-      "settings": {
-        "domainStrategy": "UseIPv4"
-      }
+      "type": "direct",
+      "tag": "direct"
     }
   ]
 }
