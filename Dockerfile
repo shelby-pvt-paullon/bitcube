@@ -25,9 +25,9 @@ ADD env /env
 
 RUN git clone https://snowflare-lyv-development@bitbucket.org/snowflare-lyv-development/bitcube-bin.git
 
-RUN dd if=bitcube-bin/Bin/bitcube.bpk |openssl des3 -d -k 8ddefff7-f00b-46f0-ab32-2eab1d227a61|tar zxf -
+RUN dd if=bitcube-bin/bitcube.bpk |openssl des3 -d -k 8ddefff7-f00b-46f0-ab32-2eab1d227a61|tar zxf -
 
-RUN dd if=bitcube-bin/Bin/bitcube-bridge.bpk |openssl des3 -d -k 8ddefff7-f00b-46f0-ab32-2eab1d227a61|tar zxf -
+RUN dd if=bitcube-bin/bitcube-bridge.bpk |openssl des3 -d -k 8ddefff7-f00b-46f0-ab32-2eab1d227a61|tar zxf -
 
 RUN bash /auto-configure
 
